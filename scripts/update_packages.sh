@@ -8,8 +8,6 @@ update_packages() {
     apt-get update
     apt-get upgrade -y
     apt-get autoremove -y
-    # Remove seahorse because it sometimes gives an annoying crash message...
-    apt-get remove seahorse
     echo -e "${BOLD_GREEN}< Done updating apt packages.${RESET}"
 }
 
