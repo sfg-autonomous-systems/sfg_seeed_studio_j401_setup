@@ -2,7 +2,7 @@
 
 set_power_mode() {
     echo -e "${BOLD_GREEN}> Setting power mode to MAXN.${RESET}"
-    sudo nvpmodel -m 0
+    echo "NO" | sudo nvpmodel -m 0
     echo -e "${BOLD_GREEN}< Done setting power mode to MAXN.${RESET}"
 }
 

@@ -15,4 +15,4 @@ fix_intel_ax210
 disable_wifi_power_management
 set_power_mode
 
-echo -e "${BOLD_GREEN}<<< Done with setup.${RESET}"
+echo -e "${BOLD_GREEN}<<< Done with setup. Please reboot.${RESET}"
