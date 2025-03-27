@@ -33,4 +33,4 @@ To set up this repository you can do one of the following:
 - If you do not have access to https://gitlab.hs-esslingen.de, you may transfer the repository via a USB stick and run the included `setup.sh` script with sudo privileges manually.
 
 
-Once finished, reboot the device. Note that it might be the case that during reboot the bootloader's boot order might attempt to first boot via IPv4 or IPv6. In that case you may change the boot order to boot from the SSD as described [here](https://docs.nvidia.com/jetson/archives/r34.1/DeveloperGuide/text/SD/Bootloader/UEFI.html#boot-order-selection).
+Once the setup has finished, the device will automatically reboot. Note that it might be the case that during reboot the bootloader's boot order might attempt to first boot via IPv4 or IPv6. In that case you may change the boot order to boot from the SSD as described [here](https://docs.nvidia.com/jetson/archives/r34.1/DeveloperGuide/text/SD/Bootloader/UEFI.html#boot-order-selection).
