@@ -8,12 +8,14 @@ update_packages() {
     apt-get update
     apt-get upgrade -y
     apt-get autoremove -y
+    # Remove seahorse because it sometimes gives an annoying crash message...
+    apt-get remove seahorse
     echo -e "${BOLD_GREEN}< Done updating apt packages.${RESET}"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
     source "${SCRIPT_DIR}/common.sh"
-    check_environment || exit 1
+    check_environment "${@}" || exit 1
     update_packages
 fi

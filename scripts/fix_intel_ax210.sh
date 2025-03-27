@@ -21,6 +21,6 @@ fix_intel_ax210() {
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
     source "${SCRIPT_DIR}/common.sh"
-    check_environment || exit 1
+    check_environment "${@}" || exit 1
     disable_wifi_power_management
 fi
