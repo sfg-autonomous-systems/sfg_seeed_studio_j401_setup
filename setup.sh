@@ -13,6 +13,7 @@ update_packages
 install_dependencies "${1}"
 fix_intel_ax210
 disable_wifi_power_management
-set_power_mode
 
-echo -e "${BOLD_GREEN}<<< Done with setup. Please reboot.${RESET}"
+echo -e "${BOLD_GREEN}<<< Done with setup. Rebooting in 5 seconds.${RESET}"
+sleep 5
+set_power_mode
