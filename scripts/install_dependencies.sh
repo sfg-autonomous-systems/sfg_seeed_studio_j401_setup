@@ -24,13 +24,13 @@ install_docker() {
 
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     groupadd docker
-    usermod -aG docker "${0}"
+    usermod -aG docker "${1}"
     echo -e "${BOLD_GREEN}< Done installing Docker.${RESET}"
 }
 
 install_dependencies() {
     install_git_lfs
-    install_docker "${0}"
+    install_docker "${1}"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
