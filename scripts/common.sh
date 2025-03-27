@@ -8,8 +8,8 @@ check_environment() {
 
     if [[ -z "${USERNAME}" ]]; then
         echo -e "${BOLD_RED}Invalid invocation.${RESET}"
-        echo -e "${BOLD_RED}Usage: $0 <username>${RESET}"
-        echo -e "${BOLD_RED}Example: $0 ${USER}${RESET}"
+        echo -e "${BOLD_RED}Usage: sudo $0 <username>${RESET}"
+        echo -e "${BOLD_RED}Example: sudo $0 ${USER}${RESET}"
         return 1
     fi
 
@@ -29,7 +29,7 @@ check_environment() {
     fi
 
     if [ "$(whoami)" != "root" ]; then
-        echo "${BOLD_RED}Please run as root.${RESET}"
+        echo -e "${BOLD_RED}Please run as root.${RESET}"
         return 1
     fi
 
