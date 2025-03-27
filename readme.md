@@ -27,7 +27,7 @@ To set up this repository you can do one of the following:
     REPOSITORY_URL=https://gitlab.hs-esslingen.de/smart-factory-grids/autonomous-systems/tools/seeed-studio-j401-setup.git; \
     REPOSITORY_PATH=~/Documents/seeed_studio_j401_setup; \
     git clone "${REPOSITORY_URL}" "${REPOSITORY_PATH}" && \
-    sudo "${REPOSITORY_PATH}/setup.sh"
+    sudo "${REPOSITORY_PATH}/setup.sh "${USER}"
     ```
 
 - If you do not have access to https://gitlab.hs-esslingen.de, you may transfer the repository via a USB stick and run the included `setup.sh` script with sudo privileges manually.
