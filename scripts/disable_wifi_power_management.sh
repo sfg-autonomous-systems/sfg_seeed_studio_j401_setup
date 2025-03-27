@@ -5,13 +5,7 @@ disable_wifi_power_management() {
     # This is done because it could be an issue as mentioned here:
     #     - https://www.snbforums.com/threads/asus-xt8-latency-on-local-wifi-network-between-hosts.86123/
     echo -e "${BOLD_GREEN}> Disabling power managment for wireless interfaces.${RESET}"
-    INTERFACES=$(iwconfig 2>/dev/null | grep '^[a-zA-Z0-9]' | awk '{print $1}')
-
-    for INTERFACE in ${INTERFACES}; do
-        echo -e "Disabling power management for ${INTERFACE}"
-        iwconfig ${INTERFACE} power off
-    done
-
+    echo 'ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan*", RUN+="/sbin/iw dev %k set power_save off"' | tee /etc/udev/rules.d/99-disable-wifi-powersave.rules > /dev/null
     echo -e "${BOLD_GREEN}< Done disabling power managment for wireless interfaces.${RESET}"
 }
 
