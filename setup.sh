@@ -14,6 +14,6 @@ update_packages
 install_dependencies "${1}"
 disable_wifi_power_management
 
-echo -e "${BOLD_GREEN}<<< Done with setup. Rebooting in 5 seconds.${RESET}"
-sleep 5
-set_power_mode
+WAIT=5
+echo -e "${BOLD_GREEN}<<< Done with setup. Rebooting in ${WAIT} seconds.${RESET}"
+set_max_performance "${WAIT}" > /dev/null 2>&1
