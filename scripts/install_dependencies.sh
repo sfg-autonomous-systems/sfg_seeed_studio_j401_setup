@@ -8,7 +8,8 @@ install_git_lfs() {
 }
 
 install_docker() {
-    # Install Docker as described in https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
+    # Install Docker as described in 
+    #     - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
     echo -e "${BOLD_GREEN}> Installing Docker.${RESET}"
     apt-get update
     apt-get install -y ca-certificates curl

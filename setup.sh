@@ -13,6 +13,7 @@ fix_intel_ax210
 update_packages
 install_dependencies "${1}"
 disable_wifi_power_management
+set_up_vpi
 
 WAIT=5
 echo -e "${BOLD_GREEN}<<< Done with setup. Rebooting in ${WAIT} seconds.${RESET}"

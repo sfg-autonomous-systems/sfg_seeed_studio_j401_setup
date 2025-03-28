@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 update_packages() {
-    # Keep apt from upgrading L4T packages and then update, upgrade, and autoremove packages as described here:
+    # Keep apt from upgrading L4T packages and then update, upgrade, and autoremove packages as described in
     #     - https://www.forecr.io/blogs/bsp-development/how-to-apply-distro-upgrade-apt-upgrade-on-jetson-modules
     echo -e "${BOLD_GREEN}> Updating apt packages.${RESET}"
     apt-mark hold 'nvidia-l4t-*'
