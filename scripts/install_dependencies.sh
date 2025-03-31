@@ -7,6 +7,13 @@ install_git_lfs() {
     echo -e "${BOLD_GREEN}< Done installing Git LFS.${RESET}"
 }
 
+install_jtop() {
+    echo -e "${BOLD_GREEN}> Installing jtop.${RESET}"
+    apt install -y python3-pip
+    pip3 install -U jetson-stats
+    echo -e "${BOLD_GREEN}< Done installing jtop.${RESET}"
+}
+
 install_docker() {
     # Install Docker as described in 
     #     - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
@@ -31,6 +38,7 @@ install_docker() {
 
 install_dependencies() {
     install_git_lfs
+    install_jtop
     install_docker "${1}"
 }
 
