@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
+# Set up SSH authentication.
+"${SCRIPT_DIR}/ssh_authentication/setup.sh"
+
 # Source all scripts.
 for SCRIPT in "${SCRIPT_DIR}/scripts"/*.sh; do
     source "${SCRIPT}"
@@ -17,4 +20,4 @@ set_up_vpi
 
 WAIT=5
 echo -e "${BOLD_GREEN}<<< Done with setup. Rebooting in ${WAIT} seconds.${RESET}"
-set_max_performance "${WAIT}" > /dev/null 2>&1
+set_max_performance "${WAIT}" >/dev/null 2>&1
