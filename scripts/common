@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+SEEED_STUDIO_J401_SETUP_PROJECT_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/.."
+source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/ssh_authentication/setup"
+source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/scripts/check_environment"

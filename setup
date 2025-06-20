@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-SEEED_STUDIO_J401_SETUP_PROJECT_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
-source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/scripts/check_environment"
-source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/scripts/print_utils"
+source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/scripts/common"
 
 set_up_seeed_studio_j401() {
     local START_TEXT="> Setting up seeed studio J401."
@@ -13,8 +11,6 @@ set_up_seeed_studio_j401() {
     for script in "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/scripts"/*; do
         source "${script}"
     done
-
-    source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/ssh_authentication/setup"
 
     set_up_ssh_authentication
     fix_intel_ax210
