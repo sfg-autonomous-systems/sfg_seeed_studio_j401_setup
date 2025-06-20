@@ -26,7 +26,7 @@ To set up this repository you can do one of the following:
     ```bash
     REPOSITORY_URL=https://gitlab.hs-esslingen.de/smart-factory-grids/autonomous-systems/tools/seeed-studio-j401-setup.git; \
     REPOSITORY_PATH=~/Documents/seeed_studio_j401_setup; \
-    git clone "${REPOSITORY_URL}" "${REPOSITORY_PATH}" && \
+    git clone --recurse-submodule "${REPOSITORY_URL}" "${REPOSITORY_PATH}" && \
     sudo "${REPOSITORY_PATH}/setup.sh" "${USER}"
     ```
 
