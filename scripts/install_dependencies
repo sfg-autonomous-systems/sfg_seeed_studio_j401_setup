@@ -23,6 +23,8 @@ install_jtop() {
 # Install Docker as described in
 #     - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
 install_docker() {
+    local username="${1}"
+
     local START_TEXT="> Installing Docker."
     local END_TEXT="< Done installing Docker."
 
@@ -41,19 +43,21 @@ install_docker() {
 
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     groupadd docker
-    usermod -aG docker "${1}"
+    usermod -aG docker "${username}"
     print_info "${END_TEXT}"
 }
 
 install_dependencies() {
+    local username="${1}"
+
     install_git_lfs
     install_jtop
-    install_docker "${1}"
+    install_docker "${username}"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
     source "${SCRIPT_DIR}/common"
     check_environment "${1}" || exit 1
-    install_dependencies "${1}"
+    install_dependencies "${@}"
 fi

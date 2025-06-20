@@ -2,6 +2,8 @@
 source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/scripts/common"
 
 set_up_seeed_studio_j401() {
+    local username="${1}"
+
     local START_TEXT="> Setting up seeed studio J401."
     local END_TEXT="< Done setting up seeed studio J401."
 
@@ -26,5 +28,5 @@ set_up_seeed_studio_j401() {
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     check_environment "${1}" || exit 1
-    set_up_seeed_studio_j401
+    set_up_seeed_studio_j401 "${@}"
 fi

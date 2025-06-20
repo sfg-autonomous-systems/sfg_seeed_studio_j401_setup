@@ -18,5 +18,5 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
     source "${SCRIPT_DIR}/common"
     check_environment "${1}" || exit 1
-    update_packages
+    update_packages "${@:2}"
 fi

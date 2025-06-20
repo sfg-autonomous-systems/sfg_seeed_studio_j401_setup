@@ -3,12 +3,14 @@
 # Set max performance as decribed in
 #     - https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/index.html#jetson-platforms
 set_max_performance() {
+    local wait_in_seconds="${1}"
+
     local START_TEXT="> Setting max performance."
     local END_TEXT="< Done setting max performance. Rebooting in ${1} seconds."
 
     print_info "${START_TEXT}"
     jetson_clocks
-    nvpmodel --force --wait "${1}" --mode 0
+    nvpmodel --force --wait "${wait_in_seconds}" --mode 0
     print_info "${END_TEXT}"
 }
 
@@ -16,5 +18,5 @@ if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
     source "${SCRIPT_DIR}/common"
     check_environment "${1}" || exit 1
-    set_max_performance "${2}"
+    set_max_performance "${@:2}"
 fi
