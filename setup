@@ -12,6 +12,8 @@ set_up_seeed_studio_j401() {
         source "${script}"
     done
 
+    source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/ssh_authentication/setup"
+
     set_up_ssh_authentication
     fix_intel_ax210
     update_packages
