@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+SEEED_STUDIO_J401_SETUP_PROJECT_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/scripts/check_environment"
+source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/scripts/print_utils"
+
+set_up_seeed_studio_j401() {
+    local START_TEXT="> Setting up seeed studio J401."
+    local END_TEXT="< Done setting up seeed studio J401."
+
+    print_info "${START_TEXT}"
+
+    # Source all scripts.
+    for script in "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/scripts"/*; do
+        source "${script}"
+    done
+
+    source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/ssh_authentication/setup"
+
+    set_up_ssh_authentication
+    fix_intel_ax210
+    update_packages
+    install_dependencies "${username}"
+    disable_wifi_power_management
+    set_up_vpi
+    set_max_performance 5
+    print_info "${END_TEXT}"
+}
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    check_environment "${1}" || exit 1
+    set_up_seeed_studio_j401
+fi

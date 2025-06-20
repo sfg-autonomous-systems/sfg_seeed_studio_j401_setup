@@ -1,23 +1,32 @@
 #!/usr/bin/env bash
 
 install_git_lfs() {
-    echo -e "${BOLD_GREEN}> Installing Git LFS.${RESET}"
+    local START_TEXT="> Installing Git LFS."
+    local END_TEXT="< Done installing Git LFS."
+
+    print_info "${START_TEXT}"
     apt-get install -y git-lfs
     git lfs install --skip-repo
-    echo -e "${BOLD_GREEN}< Done installing Git LFS.${RESET}"
+    print_info "${END_TEXT}"
 }
 
 install_jtop() {
-    echo -e "${BOLD_GREEN}> Installing jtop.${RESET}"
+    local START_TEXT="> Installing jtop."
+    local END_TEXT="< Done installing jtop."
+
+    print_info "${START_TEXT}"
     apt install -y python3-pip
     pip3 install -U jetson-stats
-    echo -e "${BOLD_GREEN}< Done installing jtop.${RESET}"
+    print_info "${END_TEXT}"
 }
 
+# Install Docker as described in
+#     - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
 install_docker() {
-    # Install Docker as described in 
-    #     - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
-    echo -e "${BOLD_GREEN}> Installing Docker.${RESET}"
+    local START_TEXT="> Installing Docker."
+    local END_TEXT="< Done installing Docker."
+
+    print_info "${START_TEXT}"
     apt-get update
     apt-get install -y ca-certificates curl
     install -m 0755 -d "/etc/apt/keyrings"
@@ -33,7 +42,7 @@ install_docker() {
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     groupadd docker
     usermod -aG docker "${1}"
-    echo -e "${BOLD_GREEN}< Done installing Docker.${RESET}"
+    print_info "${END_TEXT}"
 }
 
 install_dependencies() {
@@ -43,8 +52,8 @@ install_dependencies() {
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-    source "${SCRIPT_DIR}/common.sh"
-    check_environment "${@}" || exit 1
+    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/../setup"
+    check_environment "${1}" || exit 1
     install_dependencies "${1}"
 fi
