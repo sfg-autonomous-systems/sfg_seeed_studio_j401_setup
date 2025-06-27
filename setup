@@ -1,32 +1,34 @@
 #!/usr/bin/env bash
-source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/scripts/common"
 
-set_up_seeed_studio_j401() {
+sfg_seeed_studio_j401_setup__set_up_seeed_studio_j401() {
     local username="${1}"
+
+    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/scripts/common"
+    source "${SCRIPT_DIR}/ssh_authentication/setup"
+
+    sfg_seeed_studio_j401_setup__check_environment "${1}" || exit 1
+    sfg_ssh_authentication__set_up_ssh_authentication
 
     local START_TEXT="> Setting up seeed studio J401."
     local END_TEXT="< Done setting up seeed studio J401."
 
-    print_info "${START_TEXT}"
+    sfg_bash_utils__print_info "${START_TEXT}"
 
     # Source all scripts.
-    for script in "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/scripts"/*; do
+    for script in "${SCRIPT_DIR}/scripts"/*; do
         source "${script}"
     done
 
-    source "${SEEED_STUDIO_J401_SETUP_PROJECT_ROOT}/ssh_authentication/setup"
-
-    set_up_ssh_authentication
-    fix_intel_ax210
-    update_packages
-    install_dependencies "${username}"
-    disable_wifi_power_management
-    set_up_vpi
-    set_max_performance 5
-    print_info "${END_TEXT}"
+    sfg_seeed_studio_j401_setup__fix_intel_ax210
+    sfg_seeed_studio_j401_setup__update_packages
+    sfg_seeed_studio_j401_setup__install_dependencies "${username}"
+    sfg_seeed_studio_j401_setup__disable_wifi_power_management
+    sfg_seeed_studio_j401_setup__set_up_vpi
+    sfg_seeed_studio_j401_setup__set_max_performance 5
+    sfg_bash_utils__print_info "${END_TEXT}"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    check_environment "${1}" || exit 1
-    set_up_seeed_studio_j401 "${@}"
+    sfg_seeed_studio_j401_setup__set_up_seeed_studio_j401 "${@}"
 fi

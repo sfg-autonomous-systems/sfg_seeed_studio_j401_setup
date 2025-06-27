@@ -2,11 +2,14 @@
 
 # Set up VPI as described in
 #     - https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/jetson_vpi.html
-set_up_vpi() {
+sfg_seeed_studio_j401_setup__set_up_vpi() {
+    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/common"
+
     local START_TEXT="> Setting up VPI."
     local END_TEXT="< Done setting up VPI."
 
-    print_info "${START_TEXT}"
+    sfg_bash_utils__print_info "${START_TEXT}"
     nvidia-ctk cdi generate --mode=csv --output=/etc/cdi/nvidia.yaml
 
     apt-get update
@@ -15,12 +18,11 @@ set_up_vpi() {
     add-apt-repository -y 'deb https://repo.download.nvidia.com/jetson/common r36.4 main'
     apt-get update
     apt-get install -y pva-allow-2
-    print_info "${END_TEXT}"
+    sfg_bash_utils__print_info "${END_TEXT}"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
-    source "${SCRIPT_DIR}/common"
-    check_environment "${1}" || exit 1
-    set_up_vpi "${@:2}"
+    source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/check_environment"
+    sfg_seeed_studio_j401_setup__check_environment "${1}" || exit 1
+    sfg_seeed_studio_j401_setup__set_up_vpi "${@:2}"
 fi

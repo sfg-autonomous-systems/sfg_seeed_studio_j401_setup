@@ -1,34 +1,43 @@
 #!/usr/bin/env bash
 
-install_git_lfs() {
+sfg_seeed_studio_j401_setup__install_git_lfs() {
+    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/common"
+
     local START_TEXT="> Installing Git LFS."
     local END_TEXT="< Done installing Git LFS."
 
-    print_info "${START_TEXT}"
-    apt-get install -y git-lfs
-    git lfs install --skip-repo
-    print_info "${END_TEXT}"
+    sfg_bash_utils__print_info "${START_TEXT}"
+    # apt-get install -y git-lfs
+    # git lfs install --skip-repo
+    sfg_bash_utils__print_info "${END_TEXT}"
 }
 
-install_jtop() {
+sfg_seeed_studio_j401_setup__install_jtop() {
+    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/common"
+
     local START_TEXT="> Installing jtop."
     local END_TEXT="< Done installing jtop."
 
-    print_info "${START_TEXT}"
-    apt install -y python3-pip
-    pip3 install -U jetson-stats
-    print_info "${END_TEXT}"
+    sfg_bash_utils__print_info "${START_TEXT}"
+    # apt install -y python3-pip
+    # pip3 install -U jetson-stats
+    sfg_bash_utils__print_info "${END_TEXT}"
 }
 
 # Install Docker as described in
 #     - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
-install_docker() {
+sfg_seeed_studio_j401_setup__install_docker() {
     local username="${1}"
+
+    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/common"
 
     local START_TEXT="> Installing Docker."
     local END_TEXT="< Done installing Docker."
 
-    print_info "${START_TEXT}"
+    sfg_bash_utils__print_info "${START_TEXT}"
     apt-get update
     apt-get install -y ca-certificates curl
     install -m 0755 -d "/etc/apt/keyrings"
@@ -44,20 +53,22 @@ install_docker() {
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     groupadd docker
     usermod -aG docker "${username}"
-    print_info "${END_TEXT}"
+    sfg_bash_utils__print_info "${END_TEXT}"
 }
 
-install_dependencies() {
+sfg_seeed_studio_j401_setup__install_dependencies() {
     local username="${1}"
 
-    install_git_lfs
-    install_jtop
-    install_docker "${username}"
+    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/common"
+
+    sfg_seeed_studio_j401_setup__install_git_lfs
+    sfg_seeed_studio_j401_setup__install_jtop
+    sfg_seeed_studio_j401_setup__install_docker "${username}"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
-    source "${SCRIPT_DIR}/common"
-    check_environment "${1}" || exit 1
-    install_dependencies "${@}"
+    source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/check_environment"
+    sfg_seeed_studio_j401_setup__check_environment "${1}" || exit 1
+    sfg_seeed_studio_j401_setup__install_dependencies "${@}"
 fi

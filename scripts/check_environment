@@ -1,32 +1,35 @@
 #!/usr/bin/env bash
 
-check_environment() {
+sfg_seeed_studio_j401_setup__check_environment() {
     local username="${1}"
 
+    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/common"
+
     if [[ -z "${username}" ]]; then
-        print_error "Invalid invocation: ${@:0}"
-        print_error "Usage: sudo $0 <username>"
-        print_error "Example: sudo $0 ${USER}"
+        sfg_bash_utils__print_error "Invalid invocation: ${@:0}"
+        sfg_bash_utils__print_error "Usage: sudo $0 <username>"
+        sfg_bash_utils__print_error "Example: sudo $0 ${USER}"
         return 1
     fi
 
     if ! getent passwd "${username}" >"/dev/null" 2>&1; then
-        print_error "User '${username}' does not exist on the system."
+        sfg_bash_utils__print_error "User '${username}' does not exist on the system."
         return 1
     fi
 
     if [ ! -f "/proc/device-tree/model" ] || ! grep -qi "nvidia jetson" "/proc/device-tree/model"; then
-        print_error "This script is only meant to be executed on an NVIDIA Jetson platform."
+        sfg_bash_utils__print_error "This script is only meant to be executed on an NVIDIA Jetson platform."
         return 1
     fi
 
     if ! dpkg-query -s nvidia-jetpack | grep -q "Version: 6.1"; then
-        print_error "This script is only meant to be executed on JetPack version 6.1."
+        sfg_bash_utils__print_error "This script is only meant to be executed on JetPack version 6.1."
         return 1
     fi
 
     if [ "$(whoami)" != "root" ]; then
-        print_error "Please run as root."
+        sfg_bash_utils__print_error "Please run as root."
         return 1
     fi
 

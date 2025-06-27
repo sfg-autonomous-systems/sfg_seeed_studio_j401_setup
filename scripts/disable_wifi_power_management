@@ -3,11 +3,14 @@
 # Disable power management for wireless interfaces. This should basically only be one interface.
 # This is done because it could be an issue as mentioned in
 #     - https://www.snbforums.com/threads/asus-xt8-latency-on-local-wifi-network-between-hosts.86123/
-disable_wifi_power_management() {
+sfg_seeed_studio_j401_setup__disable_wifi_power_management() {
+    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    source "${SCRIPT_DIR}/common"
+
     local START_TEXT="> Setting up a directory to be mounted inside the dev container."
     local END_TEXT="< Done setting up a directory to be mounted inside the dev container."
 
-    print_info "${START_TEXT}"
+    sfg_bash_utils__print_info "${START_TEXT}"
 
     if grep -q "^wifi\.powersave" "/etc/NetworkManager/conf.d/default-wifi-powersave-on.conf"; then
         sed -i "s/^wifi\.powersave = .*/wifi.powersave = 2/" "/etc/NetworkManager/conf.d/default-wifi-powersave-on.conf"
@@ -15,12 +18,11 @@ disable_wifi_power_management() {
         echo -e "[connection]\nwifi.powersave = 2" | sudo tee -a "/etc/NetworkManager/conf.d/default-wifi-powersave-on.conf" >"/dev/null"
     fi
 
-    print_info "${END_TEXT}"
+    sfg_bash_utils__print_info "${END_TEXT}"
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
-    source "${SCRIPT_DIR}/common"
-    check_environment "${1}" || exit 1
-    disable_wifi_power_management "${@:2}"
+    source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/check_environment"
+    sfg_seeed_studio_j401_setup__check_environment "${1}" || exit 1
+    sfg_seeed_studio_j401_setup__disable_wifi_power_management "${@:2}"
 fi
