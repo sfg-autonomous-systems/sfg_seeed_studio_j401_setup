@@ -8,8 +8,8 @@ sfg_seeed_studio_j401_setup__install_git_lfs() {
     local END_TEXT="< Done installing Git LFS."
 
     sfg_bash_utils__print_info "${START_TEXT}"
-    # apt-get install -y git-lfs
-    # git lfs install --skip-repo
+    apt-get install -y git-lfs
+    git lfs install --skip-repo
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
@@ -21,8 +21,8 @@ sfg_seeed_studio_j401_setup__install_jtop() {
     local END_TEXT="< Done installing jtop."
 
     sfg_bash_utils__print_info "${START_TEXT}"
-    # apt install -y python3-pip
-    # pip3 install -U jetson-stats
+    apt install -y python3-pip
+    pip3 install -U jetson-stats
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
@@ -38,6 +38,12 @@ sfg_seeed_studio_j401_setup__install_docker() {
     local END_TEXT="< Done installing Docker."
 
     sfg_bash_utils__print_info "${START_TEXT}"
+    # Fix for iptables raw issue on NVIDIA Jetson (https://forums.developer.nvidia.com/t/another-solution-with-iptables-raw-issue/328477).
+    # Apparently not recommended for production environments (https://docs.docker.com/engine/release-notes/28/#networking-5) but we just
+    # a bunch of amateurs anyways.
+    mkdir -p "/etc/systemd/system/docker.service.d"
+    echo -e "[Service]\nEnvironment=\"DOCKER_INSECURE_NO_IPTABLES_RAW=1\"" >"/etc/systemd/system/docker.service.d/override.conf"
+
     apt-get update
     apt-get install -y ca-certificates curl
     install -m 0755 -d "/etc/apt/keyrings"
