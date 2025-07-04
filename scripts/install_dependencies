@@ -38,11 +38,15 @@ sfg_seeed_studio_j401_setup__install_docker() {
     local END_TEXT="< Done installing Docker."
 
     sfg_bash_utils__print_info "${START_TEXT}"
+    local docker_override_conf="/etc/systemd/system/docker.service.d/override.conf"
+    mkdir -p $(dirname "${docker_override_conf}")
+
+    # Fix for Docker starting before time is synchronized.
+    echo -e "[Unit]\nRequires=time-sync.target\nAfter=time-sync.target" >"${docker_override_conf}"
     # Fix for iptables raw issue on NVIDIA Jetson (https://forums.developer.nvidia.com/t/another-solution-with-iptables-raw-issue/328477).
     # Apparently not recommended for production environments (https://docs.docker.com/engine/release-notes/28/#networking-5) but we just
     # a bunch of amateurs anyways.
-    mkdir -p "/etc/systemd/system/docker.service.d"
-    echo -e "[Service]\nEnvironment=\"DOCKER_INSECURE_NO_IPTABLES_RAW=1\"" >"/etc/systemd/system/docker.service.d/override.conf"
+    echo -e "[Service]\nEnvironment=\"DOCKER_INSECURE_NO_IPTABLES_RAW=1\"" >>"${docker_override_conf}"
 
     apt-get update
     apt-get install -y ca-certificates curl
