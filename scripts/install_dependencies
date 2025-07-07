@@ -44,8 +44,8 @@ sfg_seeed_studio_j401_setup__install_docker() {
 
     cat <<-EOF > "${docker_override_conf}"
 	[Service]
-    # Wait for network connections to be online before starting Docker.
-    ExecStartPre=/usr/bin/nm-online -q
+	# Wait for network connections to be online before starting Docker.
+	ExecStartPre=/usr/bin/nm-online -q
 	# Fix for iptables raw issue on NVIDIA Jetson (https://forums.developer.nvidia.com/t/another-solution-with-iptables-raw-issue/328477).
 	# Apparently not recommended for production environments (https://docs.docker.com/engine/release-notes/28/#networking-5) but we just
 	# a bunch of amateurs anyways.
