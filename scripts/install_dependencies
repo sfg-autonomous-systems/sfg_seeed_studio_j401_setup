@@ -46,8 +46,6 @@ sfg_seeed_studio_j401_setup__install_docker() {
 
     cat <<-EOF >"${docker_override_conf}"
 	[Service]
-	# Wait for network connections to be online before starting Docker.
-	ExecStartPre=/usr/bin/nm-online -q
 	# Fix for iptables raw issue on NVIDIA Jetson (https://forums.developer.nvidia.com/t/another-solution-with-iptables-raw-issue/328477).
 	# Apparently not recommended for production environments (https://docs.docker.com/engine/release-notes/28/#networking-5) but we just
 	# a bunch of amateurs anyways.
@@ -61,10 +59,9 @@ sfg_seeed_studio_j401_setup__install_docker() {
     chmod a+r "/etc/apt/keyrings/docker.asc"
 
     # shellcheck disable=SC1091
-    echo \
-        "deb [arch=$(dpkg --print-architecture) signed-by=\"/etc/apt/keyrings/docker.asc\"] \"https://download.docker.com/linux/ubuntu\" \
-        $(. \"/etc/os-release\" && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" |
-        tee "/etc/apt/sources.list.d/docker.list" >"/dev/null"
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+        $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+        sudo tee "/etc/apt/sources.list.d/docker.list" > "/dev/null"
     apt-get update
 
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
