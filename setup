@@ -3,7 +3,8 @@
 sfg_seeed_studio_j401_setup__set_up_seeed_studio_j401() {
     local username="${1}"
 
-    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    local SCRIPT_DIR
+    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
     source "${SCRIPT_DIR}/scripts/common"
     source "${SCRIPT_DIR}/ssh_authentication/setup"
 
@@ -17,6 +18,7 @@ sfg_seeed_studio_j401_setup__set_up_seeed_studio_j401() {
 
     # Source all scripts.
     for script in "${SCRIPT_DIR}/scripts"/*; do
+        # shellcheck disable=SC1090
         source "${script}"
     done
 

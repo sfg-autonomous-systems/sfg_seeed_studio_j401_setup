@@ -4,7 +4,8 @@
 # This is done because it could be an issue as mentioned in
 #     - https://www.snbforums.com/threads/asus-xt8-latency-on-local-wifi-network-between-hosts.86123/
 sfg_seeed_studio_j401_setup__disable_wifi_power_management() {
-    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    local SCRIPT_DIR
+    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
     source "${SCRIPT_DIR}/common"
 
     local START_TEXT="> Setting up a directory to be mounted inside the dev container."
@@ -22,6 +23,7 @@ sfg_seeed_studio_j401_setup__disable_wifi_power_management() {
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    set -e
     source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/check_environment"
     sfg_seeed_studio_j401_setup__check_environment "${1}" || exit 1
     sfg_seeed_studio_j401_setup__disable_wifi_power_management "${@:2}"

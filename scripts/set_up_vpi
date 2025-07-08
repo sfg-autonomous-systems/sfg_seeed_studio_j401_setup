@@ -3,7 +3,8 @@
 # Set up VPI as described in
 #     - https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/jetson_vpi.html
 sfg_seeed_studio_j401_setup__set_up_vpi() {
-    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    local SCRIPT_DIR
+    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
     source "${SCRIPT_DIR}/common"
 
     local START_TEXT="> Setting up VPI."
@@ -14,7 +15,7 @@ sfg_seeed_studio_j401_setup__set_up_vpi() {
 
     apt-get update
     apt-get install software-properties-common
-    apt-key adv --fetch-key https://repo.download.nvidia.com/jetson/jetson-ota-public.asc
+    apt-key adv --fetch-key "https://repo.download.nvidia.com/jetson/jetson-ota-public.asc"
     add-apt-repository -y 'deb https://repo.download.nvidia.com/jetson/common r36.4 main'
     apt-get update
     apt-get install -y pva-allow-2
@@ -22,6 +23,7 @@ sfg_seeed_studio_j401_setup__set_up_vpi() {
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    set -e
     source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)/check_environment"
     sfg_seeed_studio_j401_setup__check_environment "${1}" || exit 1
     sfg_seeed_studio_j401_setup__set_up_vpi "${@:2}"

@@ -3,11 +3,12 @@
 sfg_seeed_studio_j401_setup__check_environment() {
     local username="${1}"
 
-    local SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)
+    local SCRIPT_DIR
+    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
     source "${SCRIPT_DIR}/common"
 
     if [[ -z "${username}" ]]; then
-        sfg_bash_utils__print_error "Invalid invocation: ${@:0}"
+        sfg_bash_utils__print_error "Invalid invocation: ${*}"
         sfg_bash_utils__print_error "Usage: sudo $0 <username>"
         sfg_bash_utils__print_error "Example: sudo $0 ${USER}"
         return 1
