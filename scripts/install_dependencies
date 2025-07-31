@@ -70,6 +70,19 @@ sfg_seeed_studio_j401_setup__install_docker() {
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
+sfg_seeed_studio_j401_setup__install_ntpdate() {
+    local SCRIPT_DIR
+    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
+    source "${SCRIPT_DIR}/common"
+
+    local START_TEXT="> Installing ntpdate."
+    local END_TEXT="< Done installing ntpdate."
+
+    sfg_bash_utils__print_info "${START_TEXT}"
+    apt-get install -y ntpdate
+    sfg_bash_utils__print_info "${END_TEXT}"
+}
+
 sfg_seeed_studio_j401_setup__install_dependencies() {
     local username="${1}"
 
@@ -80,6 +93,7 @@ sfg_seeed_studio_j401_setup__install_dependencies() {
     sfg_seeed_studio_j401_setup__install_git_lfs
     sfg_seeed_studio_j401_setup__install_jtop
     sfg_seeed_studio_j401_setup__install_docker "${username}"
+    sfg_seeed_studio_j401_setup__install_ntpdate
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
