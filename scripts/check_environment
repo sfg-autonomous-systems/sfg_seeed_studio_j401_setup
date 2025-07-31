@@ -24,7 +24,7 @@ sfg_seeed_studio_j401_setup__check_environment() {
         return 1
     fi
 
-    if ! dpkg-query -s nvidia-jetpack | grep -q "Version: 6.1"; then
+    if ! grep -q "R36 (release), REVISION: 4.0" "/etc/nv_tegra_release"; then
         sfg_bash_utils__print_error "This script is only meant to be executed on JetPack version 6.1."
         return 1
     fi
