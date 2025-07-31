@@ -29,7 +29,7 @@ sfg_seeed_studio_j401_setup__check_environment() {
         return 1
     fi
 
-    if [ "$(whoami)" != "root" ]; then
+    if [[ -z "${SUDO_USER}" ]]; then
         sfg_bash_utils__print_error "Please run as root."
         return 1
     fi
