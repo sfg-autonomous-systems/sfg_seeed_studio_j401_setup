@@ -6,10 +6,10 @@ sfg_seeed_studio_j401_setup__set_up_seeed_studio_j401() {
     local SCRIPT_DIR
     SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
     source "${SCRIPT_DIR}/scripts/common"
-    source "${SCRIPT_DIR}/ssh_authentication/setup"
+    source "${SCRIPT_DIR}/ssh_setup/setup"
 
     sfg_seeed_studio_j401_setup__check_environment "${1}" || exit 1
-    sfg_ssh_authentication__set_up_ssh_authentication
+    sfg_ssh_setup__set_up_ssh
 
     local START_TEXT="> Setting up seeed studio J401."
     local END_TEXT="< Done setting up seeed studio J401."
