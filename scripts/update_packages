@@ -7,14 +7,22 @@ sfg_seeed_studio_j401_setup__update_packages() {
     SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
     source "${SCRIPT_DIR}/common"
 
-    local START_TEXT="> Updating apt packages."
-    local END_TEXT="< Done updating apt packages."
+    local START_TEXT="> Updating packages."
+    local END_TEXT="< Done updating packages."
 
     sfg_bash_utils__print_info "${START_TEXT}"
     apt-mark hold 'nvidia-l4t-*'
-    apt-get update
-    apt-get upgrade -y
-    apt-get autoremove -y
+    apt update
+    apt upgrade -y
+    apt autoremove -y
+
+    # Recent versions of snapd changed how it handles application permissions which is incompatible with the L4T kernel:
+    # - https://forums.developer.nvidia.com/t/chromium-other-browsers-not-working-after-flashing-or-updating-heres-why-and-quick-fix/338891
+    snap download snapd --revision=24724 --target-directory="/tmp/snap/"
+    snap ack "/tmp/snap/snapd_24724.assert"
+    snap install "/tmp/snap/snapd_24724.snap"
+    snap refresh --hold snapd
+
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 

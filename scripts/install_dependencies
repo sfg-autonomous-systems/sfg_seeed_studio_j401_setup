@@ -9,7 +9,7 @@ sfg_seeed_studio_j401_setup__install_git_lfs() {
     local END_TEXT="< Done installing Git LFS."
 
     sfg_bash_utils__print_info "${START_TEXT}"
-    apt-get install -y git-lfs
+    apt install -y git-lfs
     git lfs install --skip-repo
     sfg_bash_utils__print_info "${END_TEXT}"
 }
@@ -52,8 +52,8 @@ sfg_seeed_studio_j401_setup__install_docker() {
 	Environment="DOCKER_INSECURE_NO_IPTABLES_RAW=1"
 	EOF
 
-    apt-get update
-    apt-get install -y ca-certificates curl
+    apt update
+    apt install -y ca-certificates curl
     install -m 0755 -d "/etc/apt/keyrings"
     curl -fsSL "https://download.docker.com/linux/ubuntu/gpg" -o "/etc/apt/keyrings/docker.asc"
     chmod a+r "/etc/apt/keyrings/docker.asc"
@@ -62,9 +62,9 @@ sfg_seeed_studio_j401_setup__install_docker() {
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
         $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
         sudo tee "/etc/apt/sources.list.d/docker.list" > "/dev/null"
-    apt-get update
+    apt update
 
-    apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
     groupadd docker
     usermod -aG docker "${username}"
     sfg_bash_utils__print_info "${END_TEXT}"
@@ -79,7 +79,20 @@ sfg_seeed_studio_j401_setup__install_ntpdate() {
     local END_TEXT="< Done installing ntpdate."
 
     sfg_bash_utils__print_info "${START_TEXT}"
-    apt-get install -y ntpdate
+    apt install -y ntpdate
+    sfg_bash_utils__print_info "${END_TEXT}"
+}
+
+sfg_seeed_studio_j401_setup__install_chromium() {
+    local SCRIPT_DIR
+    SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
+    source "${SCRIPT_DIR}/common"
+
+    local START_TEXT="> Installing Chromium."
+    local END_TEXT="< Done installing Chromium."
+
+    sfg_bash_utils__print_info "${START_TEXT}"
+    apt install -y chromium-browser
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
@@ -94,6 +107,7 @@ sfg_seeed_studio_j401_setup__install_dependencies() {
     sfg_seeed_studio_j401_setup__install_jtop
     sfg_seeed_studio_j401_setup__install_docker "${username}"
     sfg_seeed_studio_j401_setup__install_ntpdate
+    sfg_seeed_studio_j401_setup__install_chromium
 }
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then

@@ -13,12 +13,12 @@ sfg_seeed_studio_j401_setup__set_up_vpi() {
     sfg_bash_utils__print_info "${START_TEXT}"
     nvidia-ctk cdi generate --mode=csv --output=/etc/cdi/nvidia.yaml
 
-    apt-get update
-    apt-get install software-properties-common
+    apt update
+    apt install software-properties-common
     apt-key adv --fetch-key "https://repo.download.nvidia.com/jetson/jetson-ota-public.asc"
     add-apt-repository -y 'deb https://repo.download.nvidia.com/jetson/common r36.4 main'
-    apt-get update
-    apt-get install -y pva-allow-2
+    apt update
+    apt install -y pva-allow-2
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
