@@ -15,7 +15,7 @@ During the initial configuration setup on the board itself, ensure you have inte
 | Choose a password | Choose a safe, unique password. |
 | Log in automatically | `yes` |
 | APP partition size | Leave blank to use the maximum available size. |
-| Install Chromium Browser | `yes` |
+| Install Chromium Browser | `no` |
 
 Next, when presented with the desktop environment, click through the initial window popup, opting out of everything. If you are presented with the software updater dialog, **do not update/upgrade any packages**.
 
