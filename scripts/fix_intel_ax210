@@ -16,10 +16,6 @@ sfg_seeed_studio_j401_setup__fix_intel_ax210() {
         "/lib/modules/$(uname -r)/build"
     apt install -y --no-install-recommends iwlwifi-modules
 
-    # Ensure the iwlwifi module is loaded early during boot.
-    echo "iwlwifi" | sudo tee -a "/etc/initramfs-tools/modules"
-    sudo update-initramfs -u
-
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
