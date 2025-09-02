@@ -11,7 +11,7 @@ sfg_seeed_studio_j401_setup__set_up_vpi() {
     local END_TEXT="< Done setting up VPI."
 
     sfg_bash_utils__print_info "${START_TEXT}"
-    nvidia-ctk cdi generate --mode=csv --output=/etc/cdi/nvidia.yaml
+    nvidia-ctk cdi generate --mode=csv --output="/etc/cdi/nvidia.yaml"
 
     apt update
     apt install software-properties-common
@@ -19,6 +19,32 @@ sfg_seeed_studio_j401_setup__set_up_vpi() {
     add-apt-repository -y 'deb https://repo.download.nvidia.com/jetson/common r36.4 main'
     apt update
     apt install -y pva-allow-2
+
+    # Story time (02.09.25): I bricked the WiFi on the Unitree Go2 and had to reflash it. Afterwards,
+    # our Isaac ROS Devcontainer didn't manage to start anymore:
+    #
+    #     Error response from daemon: failed to create task for container: failed to create shim task:
+    #     OCI runtime create failed: could not apply required modification to OCI specification:
+    #     error modifying OCI spec: failed to inject CDI devices: failed to inject devices:
+    #     failed to stat CDI host device "/dev/fb0": no such file or directory: unknown
+    #
+    # After a bit of digging and help of Gemini, I found out that the problem was that
+    # "/usr/share/vpi3" which is mounted into the container, was empty. Creating a symlink to
+    # the actual VPI share folder fixed the issue. 
+    #
+    # I'm not sure if a recent update to the VPI packages changed the installation destination
+    # or resulted in the symlink being removed, but this should fix the issue for now.
+    if [[ -d "/usr/share/vpi3" ]]; then
+        if [[ ! -z "$(ls -A /usr/share/vpi3)" ]]; then
+            sfg_bash_utils__print_info "${END_TEXT}"
+            return 0
+        else
+            rmdir "/usr/share/vpi3"
+        fi
+    fi
+    
+    ln -s "/opt/nvidia/vpi3" "/usr/share/vpi3"
+
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
