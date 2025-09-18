@@ -4,7 +4,13 @@ After=multi-user.target
 
 [Service]
 Type=oneshot
-ExecStart=/sbin/modprobe iwlwifi
+ExecStart="/sbin/modprobe" iwlwifi
+# Sometimes the wifi driver seems to be unable to find connect to our 6GHz wifi.
+# I noticed that when I manually open the gui to connect to a wifi, the
+# 6GHz wifi suddenly pops up and a connection is made. So I'm suspecting that opening
+# the gui triggers a rescan for available wifi networks.
+# Therefore, we'll try forcing rescans.
+ExecStartPost="/bin/bash" -c "for i in {1..3}; do sleep 10 && nmcli device wifi rescan; done"
 
 [Install]
 WantedBy=multi-user.target
