@@ -1,0 +1,10 @@
+[Unit]
+Description=Load iwlwifi module late
+After=multi-user.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/modprobe iwlwifi
+
+[Install]
+WantedBy=multi-user.target

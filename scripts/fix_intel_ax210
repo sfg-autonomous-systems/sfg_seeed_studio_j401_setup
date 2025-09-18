@@ -16,6 +16,44 @@ sfg_seeed_studio_j401_setup__fix_intel_ax210() {
         "/lib/modules/$(uname -r)/build"
     apt install -y --no-install-recommends iwlwifi-modules
 
+    # By default the wifi driver loads (early) during boot. But these somehow results in the wifi driver
+    # getting hung up for an extended amount of time as seen in the logs below. Crucially, even after the
+    # wifi driver goes online, it takes additional time for it to find our 6GHz wifi.
+    #
+    # sfg-agent@sfg-go2-01:~$ sudo dmesg | grep iwlwifi
+    # [sudo] password for sfg-agent: 
+    # [    7.440972] Loading modules backported from iwlwifi
+    # [    7.440980] iwlwifi-stack-public:master:11510:0106cce5
+    # [    7.526645] iwlwifi 0001:01:00.0: Adding to iommu group 3
+    # [    7.528829] iwlwifi 0001:01:00.0: enabling device (0000 -> 0002)
+    # [    7.530052] iwlwifi 0001:01:00.0: Detected crf-id 0x400410, cnv-id 0x400410 wfpm id 0x80000000
+    # [    7.530064] iwlwifi 0001:01:00.0: PCI dev 2725/6024, rev=0x420, rfid=0x10d000
+    # [   68.584292] iwlwifi 0001:01:00.0: WRT: Invalid time point 28 for host command TLV
+    # [   68.584308] iwlwifi 0001:01:00.0: WRT: Failed to allocate TLV 0x1000007, ret -22, (ext=0)
+    # [   68.584315] iwlwifi 0001:01:00.0: TLV_FW_FSEQ_VERSION: FSEQ Version: 0.0.2.41
+    # [   68.586708] iwlwifi 0001:01:00.0: loaded firmware version 86.fb5c9aeb.0 ty-a0-gf-a0-86.ucode op_mode iwlmvm
+    # [   68.615784] iwlwifi 0001:01:00.0: Detected Intel(R) Wi-Fi 6 AX210 160MHz, REV=0x420
+    # [   68.767927] iwlwifi 0001:01:00.0: WFPM_UMAC_PD_NOTIFICATION: 0x20
+    # [   68.767954] iwlwifi 0001:01:00.0: WFPM_LMAC2_PD_NOTIFICATION: 0x1f
+    # [   68.767972] iwlwifi 0001:01:00.0: WFPM_AUTH_KEY_0: 0x90
+    # [   68.767989] iwlwifi 0001:01:00.0: CNVI_SCU_SEQ_DATA_DW9: 0x0
+    # [   68.769892] iwlwifi 0001:01:00.0: loaded PNVM version e28bb9d7
+    # [   68.781976] iwlwifi 0001:01:00.0: Detected RF GF, rfid=0x10d000
+    # [   68.853241] iwlwifi 0001:01:00.0: base HW address: 8c:f8:c5:96:02:30
+    # [   68.881675] iwlwifi 0001:01:00.0 wlP1p1s0: renamed from wlan0
+    # [   69.086322] iwlwifi 0001:01:00.0: WFPM_UMAC_PD_NOTIFICATION: 0x20
+    # [   69.086351] iwlwifi 0001:01:00.0: WFPM_LMAC2_PD_NOTIFICATION: 0x1f
+    # [   69.086366] iwlwifi 0001:01:00.0: WFPM_AUTH_KEY_0: 0x90
+    # [   69.086381] iwlwifi 0001:01:00.0: CNVI_SCU_SEQ_DATA_DW9: 0x0
+    #
+    # So, in order to fix this, we blacklist the wifi driver to prevent it from being loaded during boot...
+    sudo bash -c 'echo "blacklist iwlwifi" > /etc/modprobe.d/blacklist-iwlwifi.conf'
+    # and create a custom systemd service that loads the wifi driver at a later stage. This, for some reason,
+    # fixes both, the delay during boot, and the delay in finding our 6GHz wifi!?
+    sudo cp "${SCRIPT_DIR}/../config/load-wifi-module.service" "/etc/systemd/system/load-wifi-module.service"
+    sudo chmod 644 "/etc/systemd/system/load-wifi-module.service"
+    sudo systemctl enable load-wifi-module.service
+
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
