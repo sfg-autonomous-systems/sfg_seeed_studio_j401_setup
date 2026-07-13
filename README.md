@@ -1,4 +1,4 @@
-# Seeed Studio J401 Setup
+# SFG Seeed Studio J401 Setup
 
 **Disclaimer: The provided setup scripts only work with JetPack version 6.1!**
 
