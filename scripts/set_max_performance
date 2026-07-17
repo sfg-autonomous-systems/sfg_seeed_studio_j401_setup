@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# Set max performance as decribed in
-#     - https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/index.html#jetson-platforms
+# Set max performance as decribed in https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/index.html#jetson-platforms.
 sfg_seeed_studio_j401_setup__set_max_performance() {
     local wait_in_seconds="${1}"
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# Set up VPI as described in
-#     - https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/jetson_vpi.html
+# Set up VPI as described in https://nvidia-isaac-ros.github.io/getting_started/hardware_setup/compute/jetson_vpi.html.
 sfg_seeed_studio_j401_setup__set_up_vpi() {
     local SCRIPT_DIR
     SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"

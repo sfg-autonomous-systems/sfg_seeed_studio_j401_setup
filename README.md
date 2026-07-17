@@ -21,16 +21,16 @@ Next, when presented with the desktop environment, click through the initial win
 
 To set up this repository you can do one of the following:
 
-- If you have access to https://gitlab.hs-esslingen.de, you can simply execute the following inside a terminal:
+- If you have access to the internet, you can simply execute the following inside a terminal:
 
     ```bash
-    REPOSITORY_URL=https://gitlab.hs-esslingen.de/smart-factory-grids/autonomous-systems/tools/seeed-studio-j401-setup.git; \
-    REPOSITORY_PATH=~/Documents/seeed_studio_j401_setup; \
-    git clone --recurse-submodule "${REPOSITORY_URL}" "${REPOSITORY_PATH}" && \
-    sudo "${REPOSITORY_PATH}/setup" "${USER}"
+    URL=https://github.com/sfg-autonomous-systems/sfg_seeed_studio_j401_setup.git; \
+    PATH=~/Documents/seeed_studio_j401_setup; \
+    git clone --recurse-submodule "${URL}" "${PATH}" && \
+    sudo "${PATH}/setup" "${USER}"
     ```
 
-- If you do not have access to https://gitlab.hs-esslingen.de, you may transfer the repository via a USB stick and run the included `setup` script with sudo privileges manually.
+- If you do not have access to the internet, you may transfer the repository via a USB stick and run the included `setup` script with sudo privileges manually.
 
 
 Once the setup has finished, the device will automatically reboot. Note that it might be the case that during reboot the bootloader's boot order might attempt to first boot via IPv4 or IPv6. In that case you may change the boot order to boot from the SSD as described [here](https://docs.nvidia.com/jetson/archives/r34.1/DeveloperGuide/text/SD/Bootloader/UEFI.html#boot-order-selection).

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Keep apt from upgrading L4T packages and then update, upgrade, and autoremove packages as described in
-#     - https://www.forecr.io/blogs/bsp-development/how-to-apply-distro-upgrade-apt-upgrade-on-jetson-modules
+# https://www.forecr.io/blogs/bsp-development/how-to-apply-distro-upgrade-apt-upgrade-on-jetson-modules.
 sfg_seeed_studio_j401_setup__update_packages() {
     local SCRIPT_DIR
     SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>"/dev/null" && pwd)"
@@ -16,8 +16,8 @@ sfg_seeed_studio_j401_setup__update_packages() {
     apt upgrade -y
     apt autoremove -y
 
-    # Recent versions of snapd changed how it handles application permissions which is incompatible with the L4T kernel:
-    # - https://forums.developer.nvidia.com/t/chromium-other-browsers-not-working-after-flashing-or-updating-heres-why-and-quick-fix/338891
+    # Recent versions of snapd changed how it handles application permissions which is incompatible with the L4T kernel as discussed in
+    # https://forums.developer.nvidia.com/t/chromium-other-browsers-not-working-after-flashing-or-updating-heres-why-and-quick-fix/338891.
     snap download snapd --revision=24724 --target-directory="/tmp/snap/"
     snap ack "/tmp/snap/snapd_24724.assert"
     snap install "/tmp/snap/snapd_24724.snap"

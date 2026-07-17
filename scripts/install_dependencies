@@ -28,8 +28,7 @@ sfg_seeed_studio_j401_setup__install_jtop() {
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
-# Install Docker as described in
-#     - https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
+# Install Docker as described in https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository.
 sfg_seeed_studio_j401_setup__install_docker() {
     local username="${1}"
 
