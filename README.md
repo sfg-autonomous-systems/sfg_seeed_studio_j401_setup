@@ -1,6 +1,7 @@
 # SFG Seeed Studio J401 Setup
 
-**Disclaimer: The provided setup scripts only work with JetPack version 6.1!**
+> [!warning]
+> The provided setup scripts only work with JetPack version 6.1!
 
 To set up your Seeed Studio J401 carrier board, flash it first by following the [official documentation by Seeed Studio](https://wiki.seeedstudio.com/reComputer_J4012_Flash_Jetpack/#flash-jetpack) up until you reach the initial configuration setup on the board itself.
 
