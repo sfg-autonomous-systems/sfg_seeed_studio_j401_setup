@@ -24,7 +24,8 @@ sfg_seeed_studio_j401_setup__install_jtop() {
 
     sfg_bash_utils__print_info "${START_TEXT}"
     apt install -y python3-pip
-    pip3 install -U jetson-stats
+    pip3 install jetson-stats==7.2.2
+    jtop --install-service
     sfg_bash_utils__print_info "${END_TEXT}"
 }
 
